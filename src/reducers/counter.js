@@ -1,8 +1,7 @@
 import { createReducer } from 'utils';
+import {COUNTER_INCREMENT} from 'actions/constants';
 
-// normally this would be imported from /constants, but in trying to keep
-// this starter kit as small as possible we'll just define it here.
-const COUNTER_INCREMENT = 'COUNTER_INCREMENT';
+
 
 const initialState = 0;
 export default createReducer(initialState, {

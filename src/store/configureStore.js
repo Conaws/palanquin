@@ -4,6 +4,7 @@ import routes               from '../routes';
 import { reduxReactRouter } from 'redux-router';
 import createHistory        from 'history/lib/createBrowserHistory';
 import DevTools             from 'containers/DevTools';
+import {persistState}       from 'redux-devtools';
 import {
   applyMiddleware,
   compose,
@@ -19,7 +20,8 @@ export default function configureStore (initialState, debug = false) {
     createStoreWithMiddleware = compose(
       middleware,
       reduxReactRouter({ routes, createHistory }),
-      DevTools.instrument()
+      DevTools.instrument(),
+      persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
     );
   } else {
     createStoreWithMiddleware = compose(
