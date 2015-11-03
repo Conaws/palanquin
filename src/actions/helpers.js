@@ -1,6 +1,6 @@
 import * as _ from 'ramda';
 import * as l from 'lodash-fp';
-import {RazorsEdge} from '../actions/constants';
+import {RazorsEdge, CityOfBrahman} from '../actions/constants';
 import {Map, List} from 'immutable'
 
 
@@ -66,7 +66,7 @@ const check = (e, val) => {
 
 
 
-const initialState = { poemList: [makePoem("The Razor's Edge", RazorsEdge.text)]};
+const initialState = { poemList: [makePoem("The Razor's Edge", RazorsEdge.text), makePoem(...CityOfBrahman)]};
 
 export {initialState, makePoem}
 
