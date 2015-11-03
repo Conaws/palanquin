@@ -6,5 +6,5 @@ import {RazorsEdge} from '../actions/constants';
 const initialState = [RazorsEdge];
 
 export default createReducer(initialState, {
-  [ADD_POEM]  : (state, poem) => state.concat({title: poem.title, body: poem.body})
+  [ADD_POEM]  : (state, poem) => state.concat({title: poem.title, text: poem.text})
 });

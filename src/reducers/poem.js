@@ -46,7 +46,7 @@ const nextVal = (state) => {
 
 
 
-export default createReducer(initialState.poemList[0], {
+export default createReducer({}, {
   [POEM_LOAD] : (state, payload) => makePoem(payload.poem.title, payload.poem.text),
   [POEM_START] : (state) => Object.assign({}, state, nextVal(state)),
   [POEM_NEXTVAL_INCREASE] : (state) => Object.assign({}, state, nextVal(state))
