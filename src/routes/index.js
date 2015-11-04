@@ -2,8 +2,9 @@ import React                 from 'react';
 import { Route, IndexRoute } from 'react-router';
 import CoreLayout            from 'layouts/CoreLayout';
 import HomeView              from 'views/HomeView';
-import Poem			         from 'views/PoemView';
-import PoemForm				 from 'views/PoemForm';
+import Poem			         from 'components/Poem';
+import PoemForm				 from 'components/PoemForm';
+import TodosView       		 from 'views/TodosView';
 
 export default (
   <Route path='/' component={CoreLayout}>

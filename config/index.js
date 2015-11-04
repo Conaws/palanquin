@@ -84,6 +84,7 @@ config.set('utils_aliases', [
   'components',
   'constants',
   'containers',
+  'core',
   'layouts',
   'reducers',
   'routes',

@@ -37,7 +37,7 @@ const makeLines = compose(notempty, _.split("\n"));
 
 const makeWords = _.split(" ");
 
-//:: poem -> [stanzas] -> [[lines]] -> [[[words]]] 
+//:: poem -> [stanzas] -> [[lines]] -> [[[words]]]
 const tracePoem = compose(map(compose(trace("with Lines"), fillStanza)), trace("with Stanzas"), makeStanzas, trace("Initial String"))
 
 const poem1 = tracePoem(RazorsEdge.text);
@@ -46,7 +46,7 @@ const poem1 = tracePoem(RazorsEdge.text);
 
 
 
-//:: [stanza] -> {stanza-1: "stanza"} 
+//:: [stanza] -> {stanza-1: "stanza"}
 
 const makePoem = curry((title, string) => ({title,
     text: string,
@@ -60,7 +60,7 @@ const makePoem = curry((title, string) => ({title,
 
 const check = (e, val) => {
     console.log(val);
-} 
+}
 
 
 
@@ -68,5 +68,4 @@ const check = (e, val) => {
 
 const initialState = { poemList: [makePoem("The Razor's Edge", RazorsEdge.text), makePoem(...CityOfBrahman)]};
 
-export {initialState, makePoem}
-
+export {initialState, makePoem, trace}
