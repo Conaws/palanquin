@@ -1,5 +1,6 @@
 import * as _ from 'ramda';
 import * as l from 'lodash-fp';
+import {Map} from 'immutable';
 
 export const compose = _.compose;
 export const curry = _.curry;

@@ -4,7 +4,7 @@ import {initialState, makePoem} from 'actions/helpers';
 
 import * as _ from 'ramda';
 import * as l from 'lodash-fp';
-import {RazorsEdge} from '../actions/constants';
+import {RazorsEdge} from 'actions/constants';
 import {Map, List} from 'immutable'
 
 
@@ -46,7 +46,7 @@ const nextVal = (state) => {
 
 
 
-export default createReducer({}, {
+export default createReducer(makePoem(RazorsEdge.title, RazorsEdge.text), {
   [POEM_LOAD] : (state, payload) => makePoem(payload.poem.title, payload.poem.text),
   [POEM_START] : (state) => Object.assign({}, state, nextVal(state)),
   [POEM_NEXTVAL_INCREASE] : (state) => Object.assign({}, state, nextVal(state))

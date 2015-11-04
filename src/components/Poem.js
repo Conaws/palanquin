@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect }            from 'react-redux';
 import {Link}                 from 'react-router';
 import actionCreators         from 'actions';
-import {divStyle, center}             from 'styles';
+import {divStyle, center, 
+      flatButton, outline}             from 'styles';
 import * as _                 from 'ramda';
 import * as l                 from 'lodash-fp';
 import {compose, curry, map, 
@@ -13,10 +14,9 @@ import {compose, curry, map,
 
 
 
-
-
 const mapStateToProps = (state) => ({
   counter : state.counter,
+  poemlist : state.poemlist,
   poem : state.poem,
   routerState : state.router
 });
@@ -69,6 +69,14 @@ const check = (submission, answer, inc) => {
 
 
 export class Poem extends React.Component {
+  constructor(props){
+    super(props)
+    if (this.props.poem.title != this.props.params.title){
+      let p = _.find(_.propEq('title', this.props.params.title), this.props.poemlist);
+      this.props.actions.poemLoad(p);
+    }
+  }
+
   static propTypes = {
     actions  : React.PropTypes.object,
     counter  : React.PropTypes.number,
@@ -80,8 +88,9 @@ export class Poem extends React.Component {
     let inc = this.props.actions.nextValIncrease
     return (
       <div className='container text-center'>
+        <Link to="/"><div>Home</div></Link>
         <h1>{this.props.params.title}</h1>
-        {(choices.length > 0)? "" :<button onClick={this.props.actions.poemStart}>Start</button>}
+        {(choices.length > 0)? "" :<div style={outline} onClick={this.props.actions.poemStart}>Practice Stanzas</div>}
         {(choices.length > 0)? map(lines, visibleStanzas): map(lines, stanzas)}
         {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): ""}
       </div>

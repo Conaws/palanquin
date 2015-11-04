@@ -1,6 +1,6 @@
 import * as _ from 'ramda';
 import * as l from 'lodash-fp';
-import {RazorsEdge, CityOfBrahman} from '../actions/constants';
+import {RazorsEdge, CityOfBrahman} from './constants';
 import {Map, List} from 'immutable'
 
 

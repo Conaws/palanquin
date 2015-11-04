@@ -9,7 +9,7 @@ import TodosView       		 from 'views/TodosView';
 export default (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={HomeView} />
-    <Route path="poems/:title" component={Poem}></Route >
+    <Route path="poems/:title" component={Poem} onEnter={console.log('You Like Poetry huh')}></Route >
     <Route path="new" component={PoemForm}/>
   </Route>
 );
