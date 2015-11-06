@@ -35,7 +35,8 @@ export default class Root extends React.Component {
           <ReduxRouter>
             {routes}
           </ReduxRouter>
-          {this.renderDevTools()}
+          
+            {this.renderDevTools()}  
           
           </div>
         </Provider>

@@ -29,11 +29,24 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 
-const lines = (s) => {
+const lines = curry((props, s) => {
           return(
-            <div style={divStyle}
-            key={s.index}>{s.text}</div>
-           )};
+            <div> 
+              <div style={{float:'right', height: '100%'}}>
+                <Link to={`/poems/${props.poem.title}/${s.index}`} onClick={() => props.actions.log(s)}>
+                  <div style={Object.assign({}, {marginTop: 20, marginBottom: 0, paddingLeft: 10, paddingRight: 10, overflow: 'hidden'}, outline)}
+                       >
+                    Study Lines
+                  </div>
+                </Link>
+              </div>
+              <div style={Object.assign(divStyle)}
+              key={s.index}>
+                {s.text}
+              </div>
+            </div>
+
+           )});
 
 
 
@@ -86,12 +99,14 @@ export class Poem extends React.Component {
   render (){
     let {choices, visibleStanzas, stanzas, title, correctAnswer} = this.props.poem;
     let inc = this.props.actions.nextValIncrease
+    let props = this.props
     return (
       <div className='container text-center'>
+        {props.children}
         <Link to="/"><div>Home</div></Link>
         <h1>{this.props.params.title}</h1>
         {(choices.length > 0)? "" :<div style={outline} onClick={this.props.actions.poemStart}>Practice Stanzas</div>}
-        {(choices.length > 0)? map(lines, visibleStanzas): map(lines, stanzas)}
+        {(choices.length > 0)? map(lines(props), visibleStanzas): map(lines(props), stanzas)}
         {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): ""}
       </div>
     )
