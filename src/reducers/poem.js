@@ -45,7 +45,7 @@ const makeStanza = (lineArray) => {
   return {
     lines: lineArray,
     visible: [],
-    choices: l.shuffle(lineArray),
+    choices: l.shuffle(R.take(5, lineArray)),
     correctAnswer: 0
   }
 }
@@ -62,11 +62,8 @@ const updateStanza = (state) => {
         R.prop('order')
         )
       )(state.lines),
-    choices: l.shuffle(
-      R.filter(
-        R.compose(
-          R.lt(state.correctAnswer), R.prop('order'))
-        )(state.lines))
+    choices: l.shuffle(R.take(5, R.filter(R.compose(R.lt(state.correctAnswer), R.prop('order')), state.lines)))
+      
     })
 
 }

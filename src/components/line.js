@@ -50,9 +50,11 @@ const customStyles = {
     left                  : '50%',
     right                 : 'auto',
     bottom                : 'auto',
+    maxHeight             : '80%',
     width                 : '80%',
     marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+    transform             : 'translate(-50%, -50%)',
+    overflow              : 'scroll'
   }
 };
 
@@ -149,7 +151,9 @@ class Line extends React.Component {
   			     {map(lines, stanzaLines)}
             <h4>Choose the Next Line</h4>
   			    {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): 
-              <button onClick={() => this.props.actions.activateStanza(parseInt(this.props.params.line) + 1)}>Next</button>}
+              ""
+              //<button onClick={() => this.props.actions.activateStanza(parseInt(this.props.params.line) + 1)}>Next</button>
+            }
           </div>
         </div>
 			</Modal>
