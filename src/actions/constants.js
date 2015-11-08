@@ -2,8 +2,9 @@ const POEM_NEXTVAL_INCREASE = 'POEM_NEXTVAL_INCREASE';
 const POEM_LOAD = 'POEM_LOAD';
 const POEM_START = 'POEM_START';
 const POEM_STANZA_ANSWER_ATTEMPT = 'POEM_STANZA_ANSWER_ATTEMPT';
-const COUNTER_INCREMENT = 'COUNTER_INCREMENT';
 const ADD_POEM = 'ADD_POEM';
+const ACTIVATE_STANZA = 'ACTIVATE_STANZA';
+const DEACTIVATE_STANZA = 'DEACTIVATE_STANZA'
 
 
 const RazorsEdge = {title: "The Razor's Edge", 
@@ -95,26 +96,26 @@ const RazorsEdge = {title: "The Razor's Edge",
 
 
 const CityOfBrahman = {title: "The City of Brahman",
-text: `In the city of Brahman is a secret dwelling, the lotus of the heart. Within this dwelling is a space, and within that space is the fulfillment of our desires. What is within that space should be longed for and realized.
+	text: `In the city of Brahman is a secret dwelling, the lotus of the heart. Within this dwelling is a space, and within that space is the fulfillment of our desires. What is within that space should be longed for and realized.
 
-As great as the infinite space beyond is the space within the lotus of the heart. Both heaven and earth are contained in that inner space, both fire and air, sun and moon, lightning and stars. Whether we know it in this world or know it not, everything is contained in that inner space.
+	As great as the infinite space beyond is the space within the lotus of the heart. Both heaven and earth are contained in that inner space, both fire and air, sun and moon, lightning and stars. Whether we know it in this world or know it not, everything is contained in that inner space.
 
-Never fear that old age will invade that city; never fear that this inner treasure of all reality will wither and decay. This knows no age when the body ages; this knows no dying when the body dies. This is the real city of Brahman; this is the Self, free from old age, from death and grief, hunger and thirst. In the Self all desires are fulfilled.
+	Never fear that old age will invade that city; never fear that this inner treasure of all reality will wither and decay. This knows no age when the body ages; this knows no dying when the body dies. This is the real city of Brahman; this is the Self, free from old age, from death and grief, hunger and thirst. In the Self all desires are fulfilled.
 
-The Self desires only what is real, thinks nothing but what is true. Here people do what they are told, becoming dependent on their country, or their piece of land, or the desires of another, so their desires are not fulfilled and their works come to nothing, both in this world and in the next. Those who depart from this world without knowing who they are or what they truly desire have no freedom here or hereafter.
+	The Self desires only what is real, thinks nothing but what is true. Here people do what they are told, becoming dependent on their country, or their piece of land, or the desires of another, so their desires are not fulfilled and their works come to nothing, both in this world and in the next. Those who depart from this world without knowing who they are or what they truly desire have no freedom here or hereafter.
 
-But those who leave here knowing who they are and what they truly desire have freedom everywhere, both in this world and in the next.
+	But those who leave here knowing who they are and what they truly desire have freedom everywhere, both in this world and in the next.
 
-Like strangers in an unfamiliar country walking over a hidden treasure, day by day we enter the world of Brahman while in deep sleep but never find it, carried away by what is false.
+	Like strangers in an unfamiliar country walking over a hidden treasure, day by day we enter the world of Brahman while in deep sleep but never find it, carried away by what is false.
 
-The Self is hidden in the lotus of the heart. Those who see themselves in all creatures go day by day into the world of Brahman hidden in the heart. Established in peace, they rise above body-consciousness to the supreme light of the Self. Immortal, free from fear, this Self is Brahman, called the True. Beyond the mortal and the immortal, he binds both worlds together. Those who know this live day after day in heaven in this very life.
+	The Self is hidden in the lotus of the heart. Those who see themselves in all creatures go day by day into the world of Brahman hidden in the heart. Established in peace, they rise above body-consciousness to the supreme light of the Self. Immortal, free from fear, this Self is Brahman, called the True. Beyond the mortal and the immortal, he binds both worlds together. Those who know this live day after day in heaven in this very life.
 
-The Self is a bulwark against the confounding of these worlds and a bridge between them. Day and night cannot cross that bridge, nor old age, nor death, nor grief, nor evil or good deeds. All evils turn back there, unable to cross; evil comes not into this world of Brahman.
+	The Self is a bulwark against the confounding of these worlds and a bridge between them. Day and night cannot cross that bridge, nor old age, nor death, nor grief, nor evil or good deeds. All evils turn back there, unable to cross; evil comes not into this world of Brahman.
 
-One who crosses by this bridge, therefore, if blind, is blind no more; if hurt, ceases to be hurt; if in sorrow, ceases sorrowing. At this boundary night itself becomes day: night comes not into this world of Brahman.
+	One who crosses by this bridge, therefore, if blind, is blind no more; if hurt, ceases to be hurt; if in sorrow, ceases sorrowing. At this boundary night itself becomes day: night comes not into this world of Brahman.
 
-Only those who are pure and self-controlled can find this world of Brahman. That world is theirs alone. In that world, in all the worlds, they live in perfect freedom.`
-}
+	Only those who are pure and self-controlled can find this world of Brahman. That world is theirs alone. In that world, in all the worlds, they live in perfect freedom.`
+	}
 export default {
 	RazorsEdge, 
 	CityOfBrahman,
@@ -123,7 +124,9 @@ export default {
 	POEM_START, 
 	POEM_LOAD,
 	COUNTER_INCREMENT,
-	ADD_POEM
+	ADD_POEM,
+	ACTIVATE_STANZA,
+	DEACTIVATE_STANZA
 }
 
 

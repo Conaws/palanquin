@@ -11,10 +11,10 @@ export default (
   <Route path='/' component={CoreLayout}>
     <IndexRoute component={HomeView} />
     <Route path="poems/:title" component={Poem} onEnter={console.log('You Like Poetry huh')}>
-    	<Route path=":line"component={Line}/>
+    	<Route path=":line"component={Line} />
     	<Route path="new" component={PoemForm}/>
     </Route >
     	
-    <Route path="new" component={Line}/>
+    <Route path="new" component={PoemForm}/>
   </Route>
 );

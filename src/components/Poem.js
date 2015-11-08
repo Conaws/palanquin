@@ -5,10 +5,13 @@ import {Link}                 from 'react-router';
 import actionCreators         from 'actions';
 import {divStyle, center, 
       flatButton, outline}             from 'styles';
-import * as _                 from 'ramda';
+import * as R                 from 'ramda';
 import * as l                 from 'lodash-fp';
 import {compose, curry, map, 
         get, trace}           from 'core';
+
+
+
 
 
 
@@ -29,11 +32,13 @@ const mapDispatchToProps = (dispatch) => ({
 
 
 
+
+
 const lines = curry((props, s) => {
           return(
             <div> 
               <div style={{float:'right', height: '100%'}}>
-                <Link to={`/poems/${props.poem.title}/${s.index}`} onClick={() => props.actions.log(s)}>
+                <Link to={`/poems/${props.poem.title}/${s.index}`} onClick={() => props.actions.activateStanza(s.index)}>
                   <div style={Object.assign({}, {marginTop: 20, marginBottom: 0, paddingLeft: 10, paddingRight: 10, overflow: 'hidden'}, outline)}
                        >
                     Study Lines
@@ -85,8 +90,8 @@ export class Poem extends React.Component {
   constructor(props){
     super(props)
     if (this.props.poem.title != this.props.params.title){
-      let p = _.find(_.propEq('title', this.props.params.title), this.props.poemlist);
-      this.props.actions.poemLoad(p);
+      let matchThis = R.find(R.propEq('title', this.props.params.title));
+      this.props.actions.poemLoad(matchThis(this.props.poemlist));
     }
   }
 
