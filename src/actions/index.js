@@ -11,7 +11,8 @@ const actionCreators = {
   poemLoad: (poem) => ({type: 'POEM_LOAD', payload: {poem}}),
   addPoem: (title, text) => ({type: 'ADD_POEM', payload: {title, text}}),
   activateStanza: (stanza) => ({type: 'ACTIVATE_STANZA', payload: stanza}),
-  deactivateStanza: () => ({type: 'DEACTIVATE_STANZA'})
+  deactivateStanza: () => ({type: 'DEACTIVATE_STANZA'}),
+  updateStanza: () => ({type: 'UPDATE_STANZA'})
 };
 
 

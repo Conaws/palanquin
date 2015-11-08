@@ -16,39 +16,17 @@ import {pushState} from 'redux-router';
 
 
 
-const findbyTitle = (val) => R.where({title: val})
-
-
-const textLength = R.compose(R.prop('length'), R.prop('text'));
-const textDescending = R.reverse(R.sortBy(textLength))
-const longestText = R.compose(trace('beforeHead'), textDescending)
-const groupByTextLength = R.partition((o) => textLength(o) > 500);
 
 
 
-const addC = R.mapObj((val) => val + "C")
-const addCtoTitleText = compose(map(addC), get('poemlist'))
-
-
-
-
-const getStanzas = R.compose(R.prop('stanzas'), R.prop('poem'));
-const addActive = R.assoc('active', true)
-const ActivateStanzas = compose(R.map(addActive), getStanzas);
-
-
-//problem with this right now -- removing activation when switch
-const activateStanza = (val) => R.assocPath(['poem', 'stanzas', val, 'active'], true)
-
-//state, go poem, to stanza, to lines
-
-//const targetStanza = (match) => compose(R.prop(match), getStanzas)
-
-const targetStanza = (val) => R.path(['poem', 'stanzas', val]);
-
-
-const ramda = (x, y) => trace("Where my ramda work goes", compose(R.prop('lines'), targetStanza(x))(y));
-
+// const makeStanza = (lineArray) => {
+//   return {
+//     lines: R.range(0, lineArray.length),
+//     visible: [],
+//     choices: l.shuffle(lineArray),
+//     correctAnswer: 0
+//   }
+// }
 
 
 
@@ -57,7 +35,8 @@ const mapStateToProps = (state) => ({
   counter : state.counter,
   poemlist : state.poemlist,
   poem : state.poem,
-  routerState : state.router
+  routerState : state.router,
+  stanza : state.poem.activateStanza
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -106,20 +85,26 @@ const choice = curry((correctAnswer, inc, c) => {
 const check = (submission, answer, inc) => {
   if (submission == answer) {
     alert('you got it');
-    inc();
+    inc(); 
   }
   else
-    alert('failure');
-
+    console.log('failure');
 }
 
 
+const  updateStanza = (stanzaState) => {
+    newVal = R.add(1, state.correctAnswer);
+    //todo --> if newVal = lines.length do something
+    return R.merge(state, {
+      correctAnswer: newVal,
+      visibleStanzas: filter(compose(lt(newVal), prop('order')))(state.choices),
+      choices: l.shuffle(filter(compose(gte(newVal), prop('order')))(state.choices))
+      })
+
+  }
 
 
 
-
-
-const withOrder = (text, order) => ({order, text});
 
 const lines = l => {
           return <div order={l.order}>{l.text}</div>
@@ -131,6 +116,7 @@ class Line extends React.Component {
 
   componentWillMount(){
     this.props.actions.activateStanza(this.props.params.line); 
+
   }
 
   componentWillUnmount(){
@@ -138,13 +124,16 @@ class Line extends React.Component {
   }
 
 
-		render(){
 
-			let stanza = targetStanza(this.props.params.line)(this.props)
-			let inc = () => console.log('closer');
-			let stanzaLines = map(withOrder, stanza.lines);
-			let choices = [R.head(stanzaLines)];
-			let correctAnswer = 0;
+
+		render(){
+      let stanza = this.props.poem.activeStanza;
+			let inc = () => this.props.actions.updateStanza();
+      //this.props.actions.log('failure');
+
+			let stanzaLines = stanza.visible;
+			let choices = stanza.choices;
+			let correctAnswer = stanza.correctAnswer;
 
 
       return(<Modal
@@ -155,13 +144,13 @@ class Line extends React.Component {
 			  >
         <div style={{marginBottom: 25}}>
 			  <div style={{float: 'right'}}>
-			  	<Link id="exit" to={`/poems/${this.props.params.title}`}>Go Home</Link>
-			  	<button onClick={() => ramda(this.props.params.line, this.props)}>ramda</button>
+			  	<Link id="exit" to={`/poems/${this.props.params.title}`}><button>Go Home</button></Link>
+			  	
 			  </div>
         </div>
         <div>
 
-			  {(choices.length > 0)? map(lines, stanzaLines) : map(lines, stanzaLines)}
+			  {map(lines, stanzaLines)}
 			  {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): ""}
 
         </div>

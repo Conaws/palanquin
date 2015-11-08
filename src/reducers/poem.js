@@ -1,6 +1,6 @@
 import { createReducer } from 'utils';
 import {get} from 'core';
-import { POEM_NEXTVAL_INCREASE, POEM_START, ADD_POEM, POEM_LOAD, ACTIVATE_STANZA, DEACTIVATE_STANZA} from 'actions/constants';
+import { POEM_NEXTVAL_INCREASE, POEM_START, ADD_POEM, POEM_LOAD, ACTIVATE_STANZA, DEACTIVATE_STANZA, UPDATE_STANZA} from 'actions/constants';
 
 import * as R from 'ramda';
 import * as l from 'lodash-fp';
@@ -10,50 +10,79 @@ import {CityOfBrahman} from 'actions/constants';
 const compose = R.compose;
 const curry = R.curry;
 const map = curry((cb, iterable) => iterable.map(cb));
-
-
-
 const trace = curry((tag, x) => {console.log(tag, x); return x});
 
 
 
 const withIndex = (text, index) => ({index, text});
 
+const withOrder = (text, order) => ({order, text});
 
 //: Poem -> [{index, stanza}, {index, stanza}]
 const makeStanzas = compose(map(withIndex), R.split("\n\n"));
 
 
 // {i, s} -> {i, s, l: []}
-const fillStanza = (stanza) => Object.assign({}, stanza, {lines: compose(makeLines, get("text"))(stanza)});
+const fillStanza = (stanza) => R.merge({lines: compose(makeLines, get("text"))(stanza)}, stanza);
 
-//:: [stanza] -> [[line][line]]
 
+
+
+
+
+//Current problem -- not all poems are going to have newline splits
+//Somehow need to check for newlines in create mode -- if not enough insert>
 const notempty = R.filter((s) => s !== '')
-const makeLines = compose(notempty, R.split("\n"));
-
-const makeWords = R.split(" ");
-
-//:: poem -> [stanzas] -> [[lines]] -> [[[words]]]
-const tracePoem = compose(map(compose(trace("with Lines"), fillStanza)), trace("with Stanzas"), makeStanzas, trace("Initial String"))
-
-//const poem1 = tracePoem(RazorsEdge.text);
+const makeLines = compose(map(withOrder), notempty, R.split("\n"));
 
 
+//activate -- right now returns number
+// should return  
+const targetStanza = (val) => R.compose(makeStanza, makeLines, R.path(['stanzas', val, 'text']));
 
 
-const makePoem = curry((title, string) => ({title,
-    text: string,
-    stanzas: map(fillStanza, makeStanzas(string)),
+const makeStanza = (lineArray) => {
+  return {
+    lines: lineArray,
+    visible: [],
+    choices: l.shuffle(lineArray),
+    correctAnswer: 0
+  }
+}
+
+
+//1, filter(compose(lte(state.correctAnswer), prop('order')))state.choices
+
+const updateStanza = (state) => {
+  return R.merge(state, {
+    correctAnswer: R.add(1, state.correctAnswer),
+    visible: R.filter(
+      R.compose(
+        R.gte(state.correctAnswer), 
+        R.prop('order')
+        )
+      )(state.lines),
+    choices: l.shuffle(
+      R.filter(
+        R.compose(
+          R.lt(state.correctAnswer), R.prop('order'))
+        )(state.lines))
+    })
+
+}
+
+
+
+
+const makePoem = curry((title, text) => (
+  { title,
+    text,
+    stanzas: makeStanzas(text),
     visibleStanzas: [],
     choices: [],
     correctAnswer: 0
-}));
-
-
-//const initialState = { poemList: [makePoem("The Razor's Edge", RazorsEdge.text), makePoem(...CityOfBrahman)]};
-
-
+  })
+);
 
 
 
@@ -66,9 +95,20 @@ const nextAnswer = (state) => {
   })
 }
 
+
+
+
+
+
+
+
+
+
 const resetStanzas = (state) => {
     return R.merge(state, {visibleStanzas: [], choices: [], correctAnswer: 0})
 }
+
+
 
 const init = (makePoem(CityOfBrahman.title, CityOfBrahman.text));
 
@@ -76,6 +116,17 @@ export default createReducer(init, {
   [POEM_LOAD] : (state, payload) => makePoem(payload.poem.title, payload.poem.text),
   [POEM_START] : (state) => nextAnswer(state),
   [POEM_NEXTVAL_INCREASE] : (state) => (state.correctAnswer != state.stanzas.length) ? nextAnswer(state) : resetStanzas(state),
-  [ACTIVATE_STANZA] : (state, payload) => R.assoc('activeStanza', payload)(state),
-  [DEACTIVATE_STANZA] : (state) => R.dissoc('activeStanza')(state)
+  [ACTIVATE_STANZA] : (state, payload) => R.assoc('activeStanza', targetStanza(parseInt(payload))(state))(state),
+  [DEACTIVATE_STANZA] : (state) => R.dissoc('activeStanza')(state),
+  [UPDATE_STANZA]: (state) => R.merge(state, 
+    trace("afterupdate", {activeStanza:  updateStanza(state.activeStanza)}))
 });
+
+
+
+
+
+
+
+
+
