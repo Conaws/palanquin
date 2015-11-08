@@ -4,7 +4,7 @@ import { POEM_NEXTVAL_INCREASE, POEM_START, ADD_POEM, POEM_LOAD, ACTIVATE_STANZA
 
 import * as R from 'ramda';
 import * as l from 'lodash-fp';
-import {RazorsEdge} from 'actions/constants';
+import {CityOfBrahman} from 'actions/constants';
 
 
 const compose = R.compose;
@@ -70,9 +70,9 @@ const resetStanzas = (state) => {
     return R.merge(state, {visibleStanzas: [], choices: [], correctAnswer: 0})
 }
 
+const init = (makePoem(CityOfBrahman.title, CityOfBrahman.text));
 
-
-export default createReducer(makePoem(...RazorsEdge), {
+export default createReducer(init, {
   [POEM_LOAD] : (state, payload) => makePoem(payload.poem.title, payload.poem.text),
   [POEM_START] : (state) => nextAnswer(state),
   [POEM_NEXTVAL_INCREASE] : (state) => (state.correctAnswer != state.stanzas.length) ? nextAnswer(state) : resetStanzas(state),

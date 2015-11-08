@@ -4,11 +4,11 @@ const POEM_START = 'POEM_START';
 const POEM_STANZA_ANSWER_ATTEMPT = 'POEM_STANZA_ANSWER_ATTEMPT';
 const ADD_POEM = 'ADD_POEM';
 const ACTIVATE_STANZA = 'ACTIVATE_STANZA';
-const DEACTIVATE_STANZA = 'DEACTIVATE_STANZA'
+const DEACTIVATE_STANZA = 'DEACTIVATE_STANZA';
 
 
-const RazorsEdge = {title: "The Razor's Edge", 
-					text:`"In the secret cave of the heart, two are
+const RazorsEdge = {title: `The Razor's Edge`, 
+					text:`In the secret cave of the heart, two are
 					Seated by life's fountain. The separate ego 
 					Drinks of the sweet and bitter stuff,
 					Liking the sweet, disliking the bitter,
@@ -90,12 +90,12 @@ const RazorsEdge = {title: "The Razor's Edge",
 					Those who, full of devotion, recite this 
 					Supreme mystery at a spiritual 
 					Gathering, are fit for eternal life.
-					They are indeed fit for eternal life."`
+					They are indeed fit for eternal life.`
 }
 
 
 
-const CityOfBrahman = {title: "The City of Brahman",
+const CityOfBrahman = {title: `The City of Brahman`,
 	text: `In the city of Brahman is a secret dwelling, the lotus of the heart. Within this dwelling is a space, and within that space is the fulfillment of our desires. What is within that space should be longed for and realized.
 
 	As great as the infinite space beyond is the space within the lotus of the heart. Both heaven and earth are contained in that inner space, both fire and air, sun and moon, lightning and stars. Whether we know it in this world or know it not, everything is contained in that inner space.
@@ -123,7 +123,6 @@ export default {
 	POEM_STANZA_ANSWER_ATTEMPT, 
 	POEM_START, 
 	POEM_LOAD,
-	COUNTER_INCREMENT,
 	ADD_POEM,
 	ACTIVATE_STANZA,
 	DEACTIVATE_STANZA

@@ -16,7 +16,6 @@ import * as l from 'lodash-fp';
 // See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
 
 const mapStateToProps = (state) => ({
-  counter : state.counter,
   poem : state.poem,
   routerState : state.router,
   poemlist : state.poemlist
@@ -30,7 +29,6 @@ const mapDispatchToProps = (dispatch) => ({
 export class HomeView extends React.Component {
   static propTypes = {
     actions  : React.PropTypes.object,
-    counter  : React.PropTypes.number,
     poem     : React.PropTypes.object,
     poemlist : React.PropTypes.array
   }
