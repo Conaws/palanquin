@@ -50,7 +50,7 @@ const customStyles = {
     left                  : '50%',
     right                 : 'auto',
     bottom                : 'auto',
-    width         : '50%',
+    width                 : '80%',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)'
   }
@@ -61,24 +61,22 @@ const customStyles = {
 
 
 const renderChoices = (choices, correctAnswer, inc) => {
-            return(<div>
-
-                <div style={center}>
-                  <h3 style={center}>Place These In the Right Order</h3>
+            return(<div style={center}>
                   {map(choice(correctAnswer, inc), l.shuffle(choices))}
                 </div>
-            </div>
            )};
 
 
 
 const choice = curry((correctAnswer, inc, c) => {
-  return <button 
+  return <div>
+      <a
       key={c.index} 
-      style={{padding: '2%', margin: '2%'}}
+      style={{padding: '2%', margin: '2%', cursor: 'pointer'}}
       onClick={() => check(c.order, correctAnswer, inc)}>
         {c.text}
-      </button>
+      </a>
+      </div>
     });
 
 
@@ -106,7 +104,7 @@ const  updateStanza = (stanzaState) => {
 
 
 const lines = l => {
-          return <div order={l.order}>{l.text}</div>
+          return <div key={l.order}>{l.text}</div>
         };
 
 
@@ -141,18 +139,18 @@ class Line extends React.Component {
 			  style={customStyles}
 			  closeTimeoutMS={50}
 			  >
-        <div style={{marginBottom: 25}}>
-			  <div style={{float: 'right'}}>
-			  	<Link id="exit" to={`/poems/${this.props.params.title}`}><button>Go Home</button></Link>
-			  	
-			  </div>
-        </div>
-        <div>
+        <div style={center}>
+          <div style={R.merge({}, {float:'right', display:'inline', marginTop: -30, marginLeft:-30, marginRight: -5,  width:30})}>
+  			     <Link id="exit" to={`/poems/${this.props.params.title}`}><button>x</button></Link>
+          </div>
+          <h3>Stanza {R.add(1, parseInt(this.props.params.line))}</h3>
+          <div>
 
-			  {map(lines, stanzaLines)}
-			  {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): 
-          <button onClick={() => this.props.actions.activateStanza(parseInt(this.props.params.line) + 1)}>Next</button>}
-
+  			     {map(lines, stanzaLines)}
+            <h4>Choose the Next Line</h4>
+  			    {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): 
+              <button onClick={() => this.props.actions.activateStanza(parseInt(this.props.params.line) + 1)}>Next</button>}
+          </div>
         </div>
 			</Modal>
       )}
