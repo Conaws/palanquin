@@ -64,7 +64,7 @@ const renderChoices = (choices, correctAnswer, inc) => {
             return(<div>
 
                 <div style={center}>
-                  <h1 style={center}>Place These In the Right Order</h1>
+                  <h3 style={center}>Place These In the Right Order</h3>
                   {map(choice(correctAnswer, inc), l.shuffle(choices))}
                 </div>
             </div>
@@ -84,7 +84,6 @@ const choice = curry((correctAnswer, inc, c) => {
 
 const check = (submission, answer, inc) => {
   if (submission == answer) {
-    alert('you got it');
     inc(); 
   }
   else
@@ -151,7 +150,8 @@ class Line extends React.Component {
         <div>
 
 			  {map(lines, stanzaLines)}
-			  {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): ""}
+			  {(choices.length > 0)? renderChoices(choices, correctAnswer, inc): 
+          <button onClick={() => this.props.actions.activateStanza(parseInt(this.props.params.line) + 1)}>Next</button>}
 
         </div>
 			</Modal>
