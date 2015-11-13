@@ -4,6 +4,7 @@ import routes                   from '../routes';
 import { ReduxRouter }          from 'redux-router';
 import DevTools                 from './DevTools';
 import { createDevToolsWindow } from '../utils';
+import {PatternImage}         from 'styles'
 
 
 export default class Root extends React.Component {
@@ -29,9 +30,9 @@ export default class Root extends React.Component {
 
   render () {
     return (
-      <div>
+      <div  style={{ height: `100vh`, backgroundImage: `url(${PatternImage})`}}>
         <Provider store={this.props.store}>
-          <div>
+          <div >
           <ReduxRouter>
             {routes}
           </ReduxRouter>
