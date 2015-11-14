@@ -21,7 +21,7 @@ import {GoogleMap, Marker, Circle, InfoWindow} from "react-google-maps";
 
 
 const geolocation = (
-  canUseDOM && navigator.geolocation || {
+  navigator.geolocation || {
     getCurrentPosition: (success, failure) => {
       failure("Your browser doesn't support geolocation.");
     },
@@ -87,6 +87,7 @@ export default class Map extends React.Component {
       center: {lat: null, lng: null},
       content: null,
       radius: 1200,
+      pitch: l.sample(["Beckon The Plebians", "Summon the Serfs", "Phone Your People"])
     }
     console.log(this.state);
   }
@@ -103,7 +104,6 @@ export default class Map extends React.Component {
   
     const tick = () => {
         this.setState({ radius: Math.max(this.state.radius - 10, 0) });
-        console.log(this.state);
         if (this.state.radius > 200) {
           raf(tick);
         }
@@ -112,16 +112,16 @@ export default class Map extends React.Component {
     }, (reason) => {
       this.setState({
         center: {
-          lat: 60,
-          lng: 105
+          lat: 38.496417,  
+          lng: -123.007113
         },
-        content: `Error: The Geolocation service failed (${ reason }).`
+        content: `Lost without you, your subjects head to your last known whereabouts`
       });
     });
   }
 
   render () {
-    const {center, content, radius} = this.state;
+    const {center, content, radius, pitch} = this.state;
     let contents = [];
     if (center) {
       contents = contents.concat([
@@ -135,46 +135,54 @@ export default class Map extends React.Component {
           }} />),
       ]);
     }
-
+    
     return (<div style={parent}>
-      {box(<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', border: '2px solid white'}}>
-        <div style={{flexGrow: 1}}>
-          This should take all the space
-        </div>
-        <h1>More Stuff</h1>
-        <div id="protective" style={{height:250, width:250}}>
-          <GoogleMap containerProps={{
-                ...this.props,
-                style: {
-                backgroundColor: 'purple', height: 250, width: 250
-                },
-              }}
-              defaultZoom={12}
-              center={center}>
-              {contents}
-            </GoogleMap>
-          </div> 
-          </div>)}
-      </div>);
+              {box(<div id="protective" style={{height:250, width:250, marginBottom: 20, borderRadius: 5}}>        
+                    <GoogleMap 
+                      containerProps={{
+                          ...this.props,
+                          style: {
+                            backgroundColor: 'purple', height: 250, width: 250, marginBottom: 20, borderRadius: 5
+                            }
+                          }}
+                        defaultZoom={12}
+                        center={center}>
+                          {contents}
+                      </GoogleMap>
+                    </div>, pitch)}
+              </div>);
     }
 }
 
-const box = (inner) => { return <Motion 
-          defaultStyle={{x: 0, z: 0, y: 0}} 
-          style={{x: spring(720, [20, 9]), z: spring(400), y: spring(300)}}>
+const box = (inner, pitch) => {   
+        return <Motion 
+          defaultStyle={{x: 0, z: 0, y: 0, p:0 }} 
+          style={{x: spring(720, [20, 9]), z: spring(450), y: spring(350), p: spring(5000000, [5, 2])}}>
             {value => {
               let viz = {
                 backgroundColor: 'purple',
                 display: 'flex',
+                flexDirection: 'column',
                 border: '2px solid blue',
                 borderRadius: 15, 
                 justifyContent: 'center',
+                alignItems: 'center',
                 width: value.y,
                 height: value.z,
-                opacity: (value.z / 400),
-                transform: `rotate(${value.x}deg)`
+                opacity: (value.z / 500),
+                transform: `rotate(${value.x}deg)`,
+                data: value.p / 95
               }
-              return(<div style={viz}>{inner}</div>)}}
+              return(<div style={viz}>
+                      <div style={{flexGrow: 1, display: 'flex', alignItems:'center', flexDirection: 'column', color: 'white'}}>
+                        <div style={{display: 'flex', flexGrow: 1, alignItems:'center', justifyContent:'center', flexDirection: 'column', fontSize: 20, marginTop:20, alignSelf: 'center'}}>
+                          <p>Estimated Trip Cost</p>
+                          <p>${parseInt(viz.data)}.00</p>
+                        </div>
+                        <a href="tel:+12015747265" style={R.merge(flatButton, {fontSize: 15})}>{pitch}</a>
+                      </div>
+                      {inner}
+                    </div>)}}
         </Motion>  
 }
 

@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import * as R from 'ramda';
 import * as l from 'lodash-fp';
 import {Motion, spring} from 'react-motion';
-// import {MapGL} from 'react-map-gl'
+
 
 
 const blue = '#337ab7';
@@ -145,11 +145,11 @@ export class HomeView extends React.Component {
               <div style={{display: 'flex', flexDirection: 'column', flexWrap: 'nowrap', alignItems:'center', color: 'white'}}>          
               <img style={{height: 75}} src={PalanquinImage}/>
               {box(<div style={{fontSize: 40, display: 'flex', flexDirection: 'column', justifyContent:'center', padding: 5}}>Palanquin</div>)}
-              <strong>Better Than A Camel</strong>
+              <strong>{l.sample(["Better Than A Camel", "The Original Luxury Transportation", "Because You're Too Good For Walking"])}</strong>
               <div style={{flexGrow:1}}>   
                 <Link to={"/map"}>
                   <div style={flatButton}>
-                    Your Chariot Awaits
+                    {l.sample(["Your Chariot Awaits", "Summon the Serfs"])}
                   </div>
                 </Link>
               </div>
