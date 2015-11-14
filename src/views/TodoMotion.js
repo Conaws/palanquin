@@ -46,28 +46,10 @@ const Demo = React.createClass({
     this.forceUpdate();
   },
 
-  handleToggleAll() {
-    const {todos} = this.state;
-    const keys = Object.keys(todos);
-    const allDone = keys.every(date => todos[date].isDone);
-    keys.forEach(date => todos[date].isDone = !allDone);
-    this.forceUpdate();
-  },
-
   handleSelect(selected) {
     this.setState({selected});
   },
 
-  handleClearCompleted() {
-    const {todos} = this.state;
-    const newTodos = {};
-    for (const prop in todos) {
-      if (!todos[prop].isDone) {
-        newTodos[prop] = todos[prop];
-      }
-    }
-    this.setState({todos: newTodos});
-  },
 
   handleDestroy(date) {
     const {todos} = this.state;
@@ -89,6 +71,19 @@ const Demo = React.createClass({
       }, {});
   },
 
+  getDefault2(){
+      const vals = {A: {text: 'hello'}, B: {text: 'guys'}};
+      return Object.keys(vals)
+      .reduce((configs, date) => {
+        configs[date] = {
+          height: spring(0),
+          opacity: spring(0),
+          data: vals[date],
+        };
+        return configs;
+      }, {});
+  },
+
   getEndValue() {
     const {todos, value, selected} = this.state;
     return Object.keys(todos)
@@ -101,9 +96,22 @@ const Demo = React.createClass({
       })
       .reduce((configs, date) => {
         configs[date] = {
-          height: spring(60),
+          height: spring(60 ),
           opacity: spring(1),
           data: todos[date],
+        };
+        return configs;
+      }, {});
+  },
+
+    getEnd2(){
+      const vals = {A: {text: 'hello'}, B: {text: 'guys'}};
+      return Object.keys(vals)
+      .reduce((configs, date) => {
+        configs[date] = {
+          height: spring(60),
+          opacity: spring(1),
+          data: vals[date],
         };
         return configs;
       }, {});
@@ -128,6 +136,23 @@ const Demo = React.createClass({
   render() {
     const {todos, value, selected} = this.state;
     return (
+      <div>
+      <TransitionMotion defaultStyles={this.getDefault2()} styles={this.getEnd2()} willLeave={this.willLeave}
+        willEnter={this.willEnter}>
+        {configs =>
+          <div>
+            {Object.keys(configs).map(date => {
+              const config = configs[date];
+              const {data: {text}, ...style} = config;
+              return (
+                <div key={date} style={style}>
+                  <h1>{text}</h1>
+                </div>
+              );
+            })}
+          </div>
+        }
+      </TransitionMotion>
       <section className="todoapp">
         <header className="header">
           <h1>todos</h1>
@@ -172,6 +197,7 @@ const Demo = React.createClass({
           </TransitionMotion>
         </section>
       </section>
+      </div>
     );
   },
 });
