@@ -19,6 +19,7 @@ import {GoogleMap, Marker, Circle, InfoWindow} from "react-google-maps";
 // import MultipleMarkers from './demos/react-map/MultipleMarkers';
 
 
+const ginnyphone = "16059544669"
 
 const geolocation = (
   navigator.geolocation || {
@@ -56,43 +57,38 @@ const child3 = {alignSelf: 'flex-start', backgroundColor: 'orange', display: 'fl
 
 
 
+const getPosition = () => geolocation.getCurrentPosition((position) => {
+      return ({
+        center: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        },
+        content: "Your loyal subjects will meet you here"
+      });
+}, (error) => {
+  return{
+        center: {
+          lat: 38.496417,  
+          lng: -123.007113
+        },
+        content: `Lost without you, your subjects head to your last known whereabouts`
+     }
+});
 
 
 
-// We define mapStateToProps and mapDispatchToProps where we'd normally use
-// the @connect decorator so the data requirements are clear upfront, but then
-// export the decorated component after the main class definition so
-// the component can be tested w/ and w/o being connected.
-// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
-
-
-//Purer Function for getting and returning latlong
-
-// const getPosition = () => {
-//   navigator.geolocation.getCurrentPosition((position) => {
-//     let lat = position.coords.longitude;
-//     let long = position.coords.latitude;
-//     console.log(lat, long)
-//     return [lat, long];
-//   }, (error) => alert("You Can't Use This Site without Location"))
-// }
 
 
 
 
-export default class Map extends React.Component {
+export class Map extends React.Component {
   constructor(props){
     super(props)
-    this.state = {
-      center: {lat: null, lng: null},
-      content: null,
-      radius: 1200,
-      pitch: l.sample(["Beckon The Plebians", "Summon the Serfs", "Phone Your People"])
-    }
-    console.log(this.state);
+    this.state = props.position
   }
 
   componentDidMount = () => {
+    this.props.actions.getPosition(getPosition());
     geolocation.getCurrentPosition((position) => {
       this.setState({
         center: {
@@ -174,6 +170,9 @@ const box = (inner, pitch) => {
                 data: value.p / 95
               }
               return(<div style={viz}>
+                      <div style={{alignSelf: 'flex-end'}}>
+                      <Link to={"/"}><div style={{padding: 15, marginTop: 25, marginBottom: -30, backgroundColor: 'white', height: 25}}>X</div></Link>
+                      </div>
                       <div style={{flexGrow: 1, display: 'flex', alignItems:'center', flexDirection: 'column', color: 'white'}}>
                         <div style={{display: 'flex', flexGrow: 1, alignItems:'center', justifyContent:'center', flexDirection: 'column', fontSize: 20, marginTop:20, alignSelf: 'center'}}>
                           <p>Estimated Trip Cost</p>
@@ -186,5 +185,14 @@ const box = (inner, pitch) => {
         </Motion>  
 }
 
+const mapStateToProps = (state) => ({
+  position : state.position,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  actions : bindActionCreators(actionCreators, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
 
 

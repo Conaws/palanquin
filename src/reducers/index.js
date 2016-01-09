@@ -1,11 +1,10 @@
 import { combineReducers }    from 'redux';
 import { routerStateReducer } from 'redux-router';
-import poem					  from './poem';
-import poemlist				  from './poemlist';
+import position				  from './position';
+
 
 export default combineReducers({
-  poem,
-  poemlist,
+  position,
   router: routerStateReducer
 });
 

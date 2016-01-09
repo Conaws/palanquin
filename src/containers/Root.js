@@ -44,6 +44,7 @@ export default class Root extends React.Component {
 }
 
 // {this.renderDevTools()}  
+// 'you'd include this within the root component if you wanted to see the state as it progresses for a real project
 
           
 
